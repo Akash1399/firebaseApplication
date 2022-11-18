@@ -44,10 +44,18 @@ export const useFirebase = () => useContext(FirebaseContext);
 export const FirebaseProvider = (props) => {
   //?To check whether the user is Loggedin or not
   const [user, setUser] = useState(null);
+  const [isLoggedIn, setLoggedIn] = useState(null);
   //This changes the state whenever the user getloggedin or loggedout
   useEffect(() => {
     onAuthStateChanged(FirebaseAuth, (user) => {
-      user ? setUser(user) : setUser(null);
+      console.log("hello");
+      if (user) {
+        setUser(user);
+        setLoggedIn(true);
+      } else {
+        setUser(null);
+        setLoggedIn(false);
+      }
     });
   }, []);
 
@@ -91,7 +99,8 @@ export const FirebaseProvider = (props) => {
     signOut(FirebaseAuth);
   };
   //This is used to pass the boolean value as per the user login and logout status
-  const isLoggedIn = user ? true : false;
+  console.log(user);
+  // const isLoggedIn = user ? true : false;
 
   return (
     <FirebaseContext.Provider

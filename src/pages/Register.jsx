@@ -12,11 +12,13 @@ function Register() {
   const [password, setPassword] = useState("");
   const Navigate = useNavigate();
   const firebase = useFirebase();
-  useEffect(() => {
-    if (!firebase.isLoggedIn) {
-      Navigate("/");
-    }
-  }, [firebase.isLoggedIn, Navigate]);
+  // useEffect(() => {
+  //   if (firebase.isLoggedIn) {
+  //     Navigate("/");
+  //   } else {
+  //     Navigate("/login");
+  //   }
+  // }, [firebase.isLoggedIn, Navigate]);
   return (
     <div className="container mw-40 mx-auto mt-5">
       <Form
@@ -55,7 +57,7 @@ function Register() {
 
         <h6>
           Already have an Account ?{" "}
-          <Button variant="link" onClick={() => Navigate("/")}>
+          <Button variant="link" onClick={() => Navigate("/login")}>
             Sign In
           </Button>
         </h6>

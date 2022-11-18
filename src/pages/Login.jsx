@@ -13,13 +13,10 @@ function Login() {
   const Navigate = useNavigate();
   const firebase = useFirebase();
   useEffect(() => {
-    console.log(!firebase.isLoggedIn);
-    if (!firebase.isLoggedIn) {
+    if (firebase.isLoggedIn) {
       Navigate("/");
-    } else {
-      Navigate("/home");
     }
-  }, [firebase.isLoggedIn, Navigate]);
+  }, [firebase.isLoggedIn]);
   console.log(firebase.isLoggedIn);
   return (
     <div className="container mw-40 mx-auto mt-5">
