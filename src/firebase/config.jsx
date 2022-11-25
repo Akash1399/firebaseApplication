@@ -12,6 +12,9 @@ import {
   GoogleAuthProvider,
   onAuthStateChanged,
   signOut,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
+  confirmationResult,
 } from "firebase/auth";
 import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -94,12 +97,46 @@ export const FirebaseProvider = (props) => {
   const getImageURL = (path) => {
     return getDownloadURL(ref(storage, path));
   };
+  const recaptchaFuncton = (divID) => {
+    window.recaptchaVerifier = new RecaptchaVerifier(
+      divID,
+      {
+        size: "invisible",
+        callback: (response) => {
+          // reCAPTCHA solved, allow signInWithPhoneNumber.
+          // onSignInSubmit();
+        },
+      },
+      FirebaseAuth
+    );
+  };
 
+  const sendOTPToNumber = (number, divID, setOtpSent) => {
+    console.log("hello", number);
+    recaptchaFuncton(divID);
+    const appVerifier = window.recaptchaVerifier;
+    signInWithPhoneNumber(FirebaseAuth, number, appVerifier)
+      .then((confirmationResult) => {
+        window.confirmationResult = confirmationResult;
+        setOtpSent(false);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const verifyOTP = (otp) => {
+    let confirmationResult = window.confirmationResult;
+    confirmationResult
+      .confirm(otp)
+      .then((result) => {
+        setUser(user);
+        setLoggedIn(true);
+      })
+      .catch((err) => console.log(err));
+  };
   const logOut = () => {
     signOut(FirebaseAuth);
   };
   //This is used to pass the boolean value as per the user login and logout status
-  console.log(user);
   // const isLoggedIn = user ? true : false;
 
   return (
@@ -112,6 +149,8 @@ export const FirebaseProvider = (props) => {
         handleCreateNewListing,
         getAllBooks,
         getImageURL,
+        sendOTPToNumber,
+        verifyOTP,
         logOut,
       }}
     >

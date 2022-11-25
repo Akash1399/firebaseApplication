@@ -5,11 +5,11 @@ import { useFirebase } from "../firebase/config";
 function NavigationBar() {
   const firebase = useFirebase();
   const Navigate = useNavigate();
-  // useEffect(() => {
-  //   if (!firebase.isLoggedIn) {
-  //     Navigate("/login");
-  //   }
-  // }, [firebase.isLoggedIn, Navigate]);
+  useEffect(() => {
+    if (!firebase.isLoggedIn) {
+      Navigate("/login");
+    }
+  }, [firebase.isLoggedIn]);
   return (
     <>
       <Navbar bg="dark" variant="dark">
