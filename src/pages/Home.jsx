@@ -12,6 +12,11 @@ function Home() {
       setBookList(res.docs);
     });
   }, []);
+  useEffect(() => {
+    if (!firebase.isLoggedIn) {
+      Navigate("/login");
+    }
+  }, [firebase.isLoggedIn]);
   return (
     <>
       <>

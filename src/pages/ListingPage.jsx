@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 //? Importing Styling
 import { Form, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 //? Importing custom hooks
 import { useFirebase } from "../firebase/config";
 function ListingPage() {
@@ -8,8 +9,14 @@ function ListingPage() {
   const [isbnNumber, setIsbnNumber] = useState("");
   const [price, setPrice] = useState("");
   const [coverPic, setCoverPic] = useState("");
+  const Navigate = useNavigate();
 
   const firebase = useFirebase();
+  useEffect(() => {
+    if (!firebase.isLoggedIn) {
+      Navigate("/");
+    }
+  }, [firebase.isLoggedIn]);
   return (
     <>
       <div className="container mw-40 mx-auto mt-5">
@@ -25,7 +32,7 @@ function ListingPage() {
             console.log(res);
           }}
         >
-          <h1>Sign In Form</h1>
+          <h1>ADD BOOK</h1>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Book Name</Form.Label>
             <Form.Control

@@ -7,11 +7,13 @@ import Login from "./pages/Login";
 import NavigationBar from "./components/NavigationBar";
 import Home from "./pages/Home";
 import ListingPage from "./pages/ListingPage";
-
+import { useFirebase } from "./firebase/config";
 function App() {
+  const firebase = useFirebase();
+
   return (
     <>
-      <NavigationBar />
+      {firebase.isLoggedIn && <NavigationBar />}
 
       <Routes>
         <Route path="/" element={<Home />} />
